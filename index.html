@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portuguese Residence Card Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-id-card"></i>
+                    <h1>Residence Card Monitor</h1>
+                </div>
+                <p class="subtitle">Track your Portuguese residence authorization</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="card setup-card" id="setupCard">
+                <div class="card-header">
+                    <h2><i class="fas fa-cog"></i> Setup Your Countdown</h2>
+                </div>
+                <div class="card-body">
+                    <form id="countdownForm">
+                        <div class="form-group">
+                            <label for="interviewDate">
+                                <i class="fas fa-calendar-alt"></i>
+                                Interview Date
+                            </label>
+                            <input type="date" id="interviewDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="weekDaysLimit">
+                                <i class="fas fa-clock"></i>
+                                Business Days Limit (default: 60)
+                            </label>
+                            <input type="number" id="weekDaysLimit" value="60" min="1" max="365" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Save & Start Monitoring
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card countdown-card" id="countdownCard" style="display: none;">
+                <div class="card-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Countdown Status</h2>
+                    <button class="btn btn-secondary btn-sm" onclick="editSettings()">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="countdown-grid">
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="daysLeft">0</div>
+                            <div class="countdown-label">Business Days Left</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="totalDays">0</div>
+                            <div class="countdown-label">Total Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="progressPercent">0%</div>
+                            <div class="countdown-label">Progress</div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span><strong>Interview Date:</strong> <span id="displayInterviewDate">-</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-times"></i>
+                            <span><strong>Expected Delivery:</strong> <span id="expectedDelivery">-</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span><strong>Status:</strong> <span id="statusText">-</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card info-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-info-circle"></i> Information</h2>
+                </div>
+                <div class="card-body">
+                    <p>This application calculates the remaining business days to receive your Portuguese residence authorization card. Starting from your AIMA interview date, it accurately tracks the countdown by excluding weekends and all Portuguese national holidays from the 60 business days limit.</p>
+                    
+                    <h4><i class="fas fa-shield-alt"></i> Privacy & Security</h4>
+                    <ul>
+                        <li><strong>Complete Privacy:</strong> No user data collection - all information stays in your browser</li>
+                        <li><strong>Local Storage Only:</strong> Data is saved locally and never transmitted anywhere</li>
+                        <li><strong>Offline Operation:</strong> Works entirely offline after initial loading</li>
+                    </ul>
+
+                    <h4><i class="fas fa-calculator"></i> Business Day Calculation</h4>
+                    <ul>
+                        <li><strong>Excludes Weekends:</strong> Saturday and Sunday are not counted</li>
+                        <li><strong>Portuguese Holidays:</strong> Automatically excludes all 14 national holidays</li>
+                        <li><strong>Fixed Holidays:</strong> New Year, Freedom Day, Labour Day, Portugal Day, Christmas, etc.</li>
+                        <li><strong>Variable Holidays:</strong> Easter-dependent holidays (Carnival, Good Friday, Easter, Corpus Christi)</li>
+                        <li><strong>Multi-year Support:</strong> Accurate calculations across different years</li>
+                    </ul>
+
+                    <h4><i class="fas fa-cog"></i> Features</h4>
+                    <ul>
+                        <li><strong>Real-time Updates:</strong> Countdown updates automatically</li>
+                        <li><strong>Editable Settings:</strong> Modify your interview date and limit anytime</li>
+                        <li><strong>Responsive Design:</strong> Works on desktop and mobile devices</li>
+                        <li><strong>Accurate Estimates:</strong> More realistic delivery dates considering Portuguese holidays</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

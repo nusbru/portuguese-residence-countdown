@@ -1,0 +1,350 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #202124;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styles */
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.logo i {
+    font-size: 2.5rem;
+    color: #1a73e8;
+}
+
+.logo h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #202124;
+    margin: 0;
+}
+
+.subtitle {
+    color: #5f6368;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Main content */
+.main-content {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+/* Card styles */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+    color: white;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-header i {
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 32px;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #202124;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group label i {
+    color: #1a73e8;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e8eaed;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Button styles */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+    color: white;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+}
+
+.btn-secondary {
+    background: #f8f9fa;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+}
+
+.btn-secondary:hover {
+    background: #f1f3f4;
+    color: #202124;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+/* Countdown styles */
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.countdown-item {
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8eaed 100%);
+    border-radius: 12px;
+    border: 1px solid #dadce0;
+}
+
+.countdown-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a73e8;
+    margin-bottom: 8px;
+}
+
+.countdown-label {
+    color: #5f6368;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Progress bar */
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e8eaed;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #34a853 0%, #66bb6a 100%);
+    transition: width 0.5s ease;
+    border-radius: 6px;
+}
+
+/* Info section */
+.info-section {
+    display: grid;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #1a73e8;
+}
+
+.info-item i {
+    color: #1a73e8;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Info card */
+.info-card {
+    grid-column: 1 / -1;
+}
+
+.info-card ul {
+    list-style: none;
+    margin-top: 16px;
+}
+
+.info-card li {
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+}
+
+.info-card li:before {
+    content: "•";
+    color: #1a73e8;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Status colors */
+.status-active {
+    color: #34a853;
+}
+
+.status-warning {
+    color: #fbbc04;
+}
+
+.status-expired {
+    color: #ea4335;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .header {
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .logo h1 {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 24px;
+    }
+    
+    .countdown-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .countdown-number {
+        font-size: 2rem;
+    }
+}
+
+/* Animation for countdown numbers */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.countdown-number.updated {
+    animation: pulse 0.5s ease;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Success animation */
+.success {
+    background: linear-gradient(135deg, #34a853 0%, #66bb6a 100%) !important;
+    color: white !important;
+} 

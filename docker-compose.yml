@@ -1,0 +1,13 @@
+services:
+  residence-countdown:
+    build: .
+    ports:
+      - "8086:80"
+    restart: unless-stopped
+    container_name: portuguese-residence-countdown
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s 
