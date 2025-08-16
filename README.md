@@ -67,6 +67,28 @@ Open your browser and navigate to `http://localhost:8080`
 podman-compose up -d
 ```
 
+## Docker Hub Images
+
+Pre-built Docker images are automatically available from Docker Hub:
+
+```bash
+# Pull the latest version
+docker pull nusbru/portuguese-residence-countdown:latest
+
+# Run the container
+docker run -p 8080:80 nusbru/portuguese-residence-countdown:latest
+```
+
+## CI/CD with GitHub Actions
+
+This project includes automated Docker image building and deployment. See [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md) for detailed setup instructions including:
+
+- Automatic Docker Hub publishing
+- Semantic versioning (1.0.BUILD_NUMBER)
+- Security scanning with Trivy
+- GitHub releases creation
+- Required secrets configuration
+
 ## Portuguese National Holidays Included
 
 The application automatically excludes the following Portuguese national holidays from business day calculations:
