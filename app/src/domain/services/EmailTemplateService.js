@@ -6,6 +6,27 @@
 
 const EMAIL_SUBJECT = 'Requerimento de entrega do título de residência (renovação – reagrupamento familiar)';
 
+/** Duration in ms for copy feedback message */
+export const COPY_FEEDBACK_DURATION_MS = 3000;
+
+/** Interval in ms for countdown refresh */
+export const COUNTDOWN_REFRESH_INTERVAL_MS = 60000;
+
+/**
+ * Formats a date to Portuguese locale string (e.g., "21 de julho de 2025")
+ * @param {string} dateString - Date in YYYY-MM-DD format
+ * @returns {string} - Formatted date in Portuguese
+ */
+export const formatDateToPortuguese = (dateString) => {
+  if (!dateString) return '{{Interview Date}}';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('pt-PT', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+};
+
 /**
  * Generates the email template with replaced placeholders
  * @param {Object} data - Email template data
@@ -13,9 +34,11 @@ const EMAIL_SUBJECT = 'Requerimento de entrega do título de residência (renova
  * @param {string} data.nipc - The NIPC number
  * @param {string} data.name - The applicant's name
  * @param {string} data.contactNumber - The contact number
+ * @param {string} data.interviewDate - The interview date in YYYY-MM-DD format
  * @returns {string} - The generated email template
  */
-export const generateEmailTemplate = ({ processNumber, nipc, name, contactNumber }) => {
+export const generateEmailTemplate = ({ processNumber, nipc, name, contactNumber, interviewDate }) => {
+  const formattedDate = formatDateToPortuguese(interviewDate);
   return `Assunto: ${EMAIL_SUBJECT}
 
 Processo número: ${processNumber || '{{Process number}}'}
@@ -24,7 +47,7 @@ NIPC: ${nipc || '{{NIPC Number}}'}
 
 Exmos. Senhores,
 
-No dia 21 de julho de 2025, procedi à renovação do meu título de residência, no âmbito de reagrupamento familiar, tendo igualmente efetuado o pagamento da taxa correspondente, conforme comprovativo em anexo.
+No dia ${formattedDate}, procedi à renovação do meu título de residência, no âmbito de reagrupamento familiar, tendo igualmente efetuado o pagamento da taxa correspondente, conforme comprovativo em anexo.
 
 Recordo que, tratando-se de uma renovação, é aplicável o n.º 6 e 7 do artigo 82 da Lei n.º 23/2007, de 4 de julho, com as alterações subsequentes, que estabelece:
 

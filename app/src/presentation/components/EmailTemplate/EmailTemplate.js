@@ -1,14 +1,26 @@
-import React, { useState, useCallback } from 'react';
-import { generateEmailTemplate, validateEmailTemplateData, DEFAULT_EMAIL_TEMPLATE_DATA } from '../../../domain';
+import React, { useState, useCallback, useEffect } from 'react';
+import { generateEmailTemplate, validateEmailTemplateData, DEFAULT_EMAIL_TEMPLATE_DATA, COPY_FEEDBACK_DURATION_MS } from '../../../domain';
 
 /**
  * EmailTemplate component - displays the email template form when deadline expires
  * Follows Single Responsibility Principle - handles only email template display and form
+ * @param {Object} props - Component props
+ * @param {string} props.interviewDate - The interview date to include in email
  */
-const EmailTemplate = () => {
+const EmailTemplate = ({ interviewDate }) => {
   const [formData, setFormData] = useState(DEFAULT_EMAIL_TEMPLATE_DATA);
   const [errors, setErrors] = useState({});
   const [isCopied, setIsCopied] = useState(false);
+
+  // Set interviewDate when prop changes
+  useEffect(() => {
+    if (interviewDate) {
+      setFormData((prev) => ({
+        ...prev,
+        interviewDate,
+      }));
+    }
+  }, [interviewDate]);
 
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -36,7 +48,7 @@ const EmailTemplate = () => {
     const emailContent = generateEmailTemplate(formData);
     navigator.clipboard.writeText(emailContent).then(() => {
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 3000);
+      setTimeout(() => setIsCopied(false), COPY_FEEDBACK_DURATION_MS);
     }).catch((err) => {
       console.error('Failed to copy to clipboard:', err);
     });

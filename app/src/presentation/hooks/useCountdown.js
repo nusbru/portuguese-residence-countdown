@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { CountdownRepository } from '../../infrastructure';
-import { calculateCountdownStats, getStatus, DEFAULT_COUNTDOWN_DATA } from '../../domain';
+import { calculateCountdownStats, getStatus, DEFAULT_COUNTDOWN_DATA, COUNTDOWN_REFRESH_INTERVAL_MS } from '../../domain';
 
 /**
  * Custom hook for managing countdown state and business logic
@@ -47,7 +47,7 @@ const useCountdown = () => {
       );
       setStats(newStats);
       setStatus(getStatus(newStats.weekDaysLeft, newStats.progressPercent));
-    }, 60000);
+    }, COUNTDOWN_REFRESH_INTERVAL_MS);
 
     return () => clearInterval(interval);
   }, [countdownData]);
@@ -67,12 +67,6 @@ const useCountdown = () => {
     setIsEditing(true);
   }, []);
 
-  const cancelEdit = useCallback(() => {
-    if (countdownData.interviewDate) {
-      setIsEditing(false);
-    }
-  }, [countdownData.interviewDate]);
-
   return {
     countdownData,
     stats,
@@ -80,7 +74,6 @@ const useCountdown = () => {
     isEditing,
     saveCountdown,
     editSettings,
-    cancelEdit,
   };
 };
 

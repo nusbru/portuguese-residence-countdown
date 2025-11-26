@@ -5,27 +5,8 @@
  * @property {string} nipc - The NIPC number
  * @property {string} name - The applicant's name
  * @property {string} contactNumber - The contact number
+ * @property {string} interviewDate - The interview date in YYYY-MM-DD format
  */
-
-/**
- * Creates a new EmailTemplateData entity
- * @param {string} processNumber 
- * @param {string} nipc 
- * @param {string} name 
- * @param {string} contactNumber 
- * @returns {EmailTemplateData}
- */
-export const createEmailTemplateData = (
-  processNumber = '',
-  nipc = '',
-  name = '',
-  contactNumber = ''
-) => ({
-  processNumber,
-  nipc,
-  name,
-  contactNumber,
-});
 
 /**
  * Default email template data
@@ -36,4 +17,5 @@ export const DEFAULT_EMAIL_TEMPLATE_DATA = {
   nipc: '',
   name: '',
   contactNumber: '',
+  interviewDate: '',
 };

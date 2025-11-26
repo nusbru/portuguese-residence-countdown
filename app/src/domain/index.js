@@ -1,5 +1,5 @@
-export { createCountdownData, DEFAULT_COUNTDOWN_DATA } from './entities/CountdownData';
-export { createEmailTemplateData, DEFAULT_EMAIL_TEMPLATE_DATA } from './entities/EmailTemplateData';
+export { DEFAULT_COUNTDOWN_DATA } from './entities/CountdownData';
+export { DEFAULT_EMAIL_TEMPLATE_DATA } from './entities/EmailTemplateData';
 export {
   calculateEaster,
   formatDateToString,
@@ -21,4 +21,7 @@ export {
   getEmailSubject,
   validateEmailTemplateData,
   isDeadlineExpired,
+  formatDateToPortuguese,
+  COPY_FEEDBACK_DURATION_MS,
+  COUNTDOWN_REFRESH_INTERVAL_MS,
 } from './services/EmailTemplateService';

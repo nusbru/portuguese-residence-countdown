@@ -29,7 +29,7 @@ function App() {
         ) : (
           <CountdownCard stats={stats} status={status} onEdit={editSettings} />
         )}
-        {showEmailTemplate && <EmailTemplate />}
+        {showEmailTemplate && <EmailTemplate interviewDate={countdownData.interviewDate} />}
         <InfoCard />
       </main>
     </div>
