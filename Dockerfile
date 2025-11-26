@@ -1,12 +1,28 @@
-# Use nginx alpine image for lightweight static file serving
-FROM nginx
+# Build stage
+FROM node:20-alpine AS build
 
-# Copy the application files to nginx's default serving directory
-COPY index.html /usr/share/nginx/html/
-COPY styles.css /usr/share/nginx/html/
-COPY script.js /usr/share/nginx/html/
+# Set working directory
+WORKDIR /app
 
-# Copy a custom nginx configuration for better performance
+# Copy package files
+COPY app/package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY app/ .
+
+# Build the React application
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built assets from build stage
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
