@@ -361,3 +361,99 @@ body {
   background: linear-gradient(135deg, #34a853 0%, #66bb6a 100%) !important;
   color: white !important;
 }
+
+/* Email Template Card */
+.email-template-card {
+  grid-column: 1 / -1;
+}
+
+.card-header-expired {
+  background: linear-gradient(135deg, #ea4335 0%, #ff6b6b 100%);
+}
+
+.email-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+  border-radius: 12px;
+  border-left: 4px solid #fbbc04;
+  margin-bottom: 24px;
+}
+
+.email-alert i {
+  color: #fbbc04;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.email-alert p {
+  margin: 0;
+  color: #856404;
+  font-weight: 500;
+}
+
+.email-form {
+  margin-bottom: 24px;
+}
+
+.email-form h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #202124;
+}
+
+.email-form h3 i {
+  color: #1a73e8;
+}
+
+.email-preview {
+  margin-bottom: 24px;
+}
+
+.email-preview h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #202124;
+}
+
+.email-preview h3 i {
+  color: #1a73e8;
+}
+
+.email-content {
+  background: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-height: 400px;
+  overflow-y: auto;
+  color: #202124;
+}
+
+.btn-copy {
+  width: 100%;
+  justify-content: center;
+}
+
+.input-error {
+  border-color: #ea4335 !important;
+  box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.1) !important;
+}
+
+.error-message {
+  display: block;
+  color: #ea4335;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}

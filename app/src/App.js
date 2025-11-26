@@ -1,5 +1,6 @@
 import React from 'react';
-import { Header, SetupCard, CountdownCard, InfoCard, useCountdown } from './presentation';
+import { Header, SetupCard, CountdownCard, InfoCard, EmailTemplate, useCountdown } from './presentation';
+import { isDeadlineExpired } from './domain';
 import './App.css';
 
 /**
@@ -17,6 +18,8 @@ function App() {
     editSettings,
   } = useCountdown();
 
+  const showEmailTemplate = stats && isDeadlineExpired(stats.weekDaysLeft);
+
   return (
     <div className="container">
       <Header />
@@ -26,6 +29,7 @@ function App() {
         ) : (
           <CountdownCard stats={stats} status={status} onEdit={editSettings} />
         )}
+        {showEmailTemplate && <EmailTemplate />}
         <InfoCard />
       </main>
     </div>
