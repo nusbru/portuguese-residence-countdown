@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
 import CountdownCard from './CountdownCard';
 
 describe('CountdownCard', () => {
@@ -17,10 +18,10 @@ describe('CountdownCard', () => {
     className: 'status-active',
   };
 
-  const mockOnEdit = jest.fn();
+  const mockOnEdit = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders nothing when stats is null', () => {

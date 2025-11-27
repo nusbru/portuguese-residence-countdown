@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
 import SetupCard from './SetupCard';
 
 describe('SetupCard', () => {
-  const mockOnSave = jest.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the form with required fields', () => {
@@ -55,20 +56,28 @@ describe('SetupCard', () => {
   });
 
   it('validates weekDaysLimit is within bounds', () => {
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    // Mock window.alert
+    const originalAlert = window.alert;
+    window.alert = vi.fn();
     
     render(<SetupCard onSave={mockOnSave} initialData={{}} />);
     
     const limitInput = screen.getByLabelText(/Business Days Limit/i);
-    const submitButton = screen.getByText('Save & Start Monitoring');
+    const form = limitInput.closest('form');
     
-    // HTML5 validation prevents submitting invalid values, so we test with boundary value
+    // Set an invalid value (beyond max) - this tests our JavaScript validation
+    // Note: We need to set the value and manually trigger submit since jsdom 
+    // doesn't enforce HTML5 min/max constraints
+    Object.defineProperty(limitInput, 'value', { value: '400', writable: true });
     fireEvent.change(limitInput, { target: { value: '400' } });
-    fireEvent.click(submitButton);
     
-    expect(alertMock).toHaveBeenCalledWith('Week days limit must be between 1 and 365');
+    // Submit the form directly to bypass any HTML5 validation
+    fireEvent.submit(form);
+    
+    expect(window.alert).toHaveBeenCalledWith('Week days limit must be between 1 and 365');
     expect(mockOnSave).not.toHaveBeenCalled();
     
-    alertMock.mockRestore();
+    // Restore original
+    window.alert = originalAlert;
   });
 });

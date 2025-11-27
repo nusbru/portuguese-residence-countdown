@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import EmailTemplate from './EmailTemplate';
 
 // Mock react-quill-new
-jest.mock('react-quill-new', () => {
-  const React = require('react');
+vi.mock('react-quill-new', () => {
   return {
-    __esModule: true,
-    default: React.forwardRef(({ value, onChange, placeholder }, ref) => (
+    default: ({ value, onChange, placeholder }) => (
       <div data-testid="rich-text-editor" className="rich-text-editor">
         <textarea
           data-testid="quill-editor"
@@ -16,14 +15,14 @@ jest.mock('react-quill-new', () => {
           placeholder={placeholder}
         />
       </div>
-    )),
+    ),
   };
 });
 
 // Mock the CSS import
-jest.mock('react-quill-new/dist/quill.snow.css', () => ({}));
+vi.mock('react-quill-new/dist/quill.snow.css', () => ({}));
 
-const mockWriteText = jest.fn(() => Promise.resolve());
+const mockWriteText = vi.fn(() => Promise.resolve());
 
 describe('EmailTemplate', () => {
   beforeAll(() => {
@@ -37,7 +36,7 @@ describe('EmailTemplate', () => {
   });
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockWriteText.mockClear();
     mockWriteText.mockImplementation(() => Promise.resolve());
   });
