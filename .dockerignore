@@ -4,7 +4,7 @@
 
 # Documentation
 README.md
-*.md
+GITHUB_ACTIONS_SETUP.md
 
 # Docker files
 Dockerfile
@@ -12,22 +12,34 @@ Dockerfile
 docker-compose.yml
 
 # Development files
-node_modules/
-*.log
-.DS_Store
-Thumbs.db
+**/node_modules/
+**/*.log
+**/npm-debug.log*
+**/coverage/
+**/build/
+**/.env
+**/.env.local
+**/.env.*.local
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+.editorconfig
 
 # OS files
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
+Thumbs.db
+
+# Test files
+**/*.test.js
+**/__tests__/
+**/jest.config.js
+
 .Trashes
 ehthumbs.db
 Thumbs.db 

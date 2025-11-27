@@ -1,13 +1,16 @@
 services:
   residence-countdown:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portuguese-residence-countdown:latest
     ports:
       - "8086:80"
     restart: unless-stopped
     container_name: portuguese-residence-countdown
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
       interval: 30s
-      timeout: 10s
+      timeout: 3s
       retries: 3
-      start_period: 10s 
+      start_period: 5s 
