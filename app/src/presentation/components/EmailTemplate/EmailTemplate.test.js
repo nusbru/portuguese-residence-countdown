@@ -2,6 +2,27 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import EmailTemplate from './EmailTemplate';
 
+// Mock react-quill-new
+jest.mock('react-quill-new', () => {
+  const React = require('react');
+  return {
+    __esModule: true,
+    default: React.forwardRef(({ value, onChange, placeholder }, ref) => (
+      <div data-testid="rich-text-editor" className="rich-text-editor">
+        <textarea
+          data-testid="quill-editor"
+          value={value || ''}
+          onChange={(e) => onChange && onChange(e.target.value)}
+          placeholder={placeholder}
+        />
+      </div>
+    )),
+  };
+});
+
+// Mock the CSS import
+jest.mock('react-quill-new/dist/quill.snow.css', () => ({}));
+
 const mockWriteText = jest.fn(() => Promise.resolve());
 
 describe('EmailTemplate', () => {
@@ -48,6 +69,12 @@ describe('EmailTemplate', () => {
     expect(screen.getByText('Copy Email to Clipboard')).toBeInTheDocument();
   });
 
+  it('renders the rich text editor', () => {
+    render(<EmailTemplate />);
+
+    expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument();
+  });
+
   it('updates form fields on input', () => {
     render(<EmailTemplate />);
 
@@ -65,20 +92,6 @@ describe('EmailTemplate', () => {
     expect(nipcInput.value).toBe('987654321');
     expect(nameInput.value).toBe('John Doe');
     expect(contactInput.value).toBe('+351 912 345 678');
-  });
-
-  it('updates email preview when form is filled', () => {
-    render(<EmailTemplate />);
-
-    const processInput = screen.getByLabelText(/Process Number/i);
-    const nameInput = screen.getByLabelText(/Name/i);
-
-    fireEvent.change(processInput, { target: { value: '12345' } });
-    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
-
-    const preview = document.querySelector('.email-content');
-    expect(preview.textContent).toContain('Processo número: 12345');
-    expect(preview.textContent).toContain('John Doe');
   });
 
   it('shows validation errors when trying to copy with empty fields', () => {
@@ -165,5 +178,23 @@ describe('EmailTemplate', () => {
 
     const emailPreview = document.querySelector('.email-preview');
     expect(emailPreview).toBeInTheDocument();
+  });
+
+  it('renders with interviewDate prop', () => {
+    render(<EmailTemplate interviewDate="2025-07-21" />);
+
+    expect(screen.getByText('Email Template for AIMA')).toBeInTheDocument();
+  });
+
+  it('updates editor content when form data changes', async () => {
+    render(<EmailTemplate />);
+
+    const processInput = screen.getByLabelText(/Process Number/i);
+    fireEvent.change(processInput, { target: { value: 'TEST-123' } });
+
+    await waitFor(() => {
+      const editor = screen.getByTestId('quill-editor');
+      expect(editor.value).toContain('TEST-123');
+    });
   });
 });

@@ -1,8 +1,56 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import { generateEmailTemplate, validateEmailTemplateData, DEFAULT_EMAIL_TEMPLATE_DATA, COPY_FEEDBACK_DURATION_MS } from '../../../domain';
 
 /**
+ * Converts plain text to HTML format for the rich text editor
+ * @param {string} plainText - The plain text to convert
+ * @returns {string} - HTML formatted text
+ */
+const convertPlainTextToHtml = (plainText) => {
+  if (!plainText) return '';
+  
+  return plainText
+    .split('\n')
+    .map(line => {
+      // Convert markdown-style headers
+      if (line.startsWith('### ')) {
+        return `<h3>${line.substring(4)}</h3>`;
+      }
+      if (line.startsWith('## ')) {
+        return `<h2>${line.substring(3)}</h2>`;
+      }
+      if (line.startsWith('# ')) {
+        return `<h1>${line.substring(2)}</h1>`;
+      }
+      // Convert "Assunto:" line to bold header
+      if (line.startsWith('Assunto:')) {
+        return `<p><strong>${line}</strong></p>`;
+      }
+      // Empty lines become paragraph breaks
+      if (line.trim() === '') {
+        return '<p><br></p>';
+      }
+      return `<p>${line}</p>`;
+    })
+    .join('');
+};
+
+/**
+ * Strips HTML tags to get plain text for clipboard
+ * @param {string} html - The HTML content
+ * @returns {string} - Plain text content
+ */
+const stripHtmlToPlainText = (html) => {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  return tempDiv.textContent || tempDiv.innerText || '';
+};
+
+/**
  * EmailTemplate component - displays the email template form when deadline expires
+ * Uses Rich Text Editor for email content editing
  * Follows Single Responsibility Principle - handles only email template display and form
  * @param {Object} props - Component props
  * @param {string} props.interviewDate - The interview date to include in email
@@ -11,6 +59,25 @@ const EmailTemplate = ({ interviewDate }) => {
   const [formData, setFormData] = useState(DEFAULT_EMAIL_TEMPLATE_DATA);
   const [errors, setErrors] = useState({});
   const [isCopied, setIsCopied] = useState(false);
+  const [emailContent, setEmailContent] = useState('');
+
+  // Quill editor modules configuration
+  const modules = useMemo(() => ({
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      ['clean']
+    ],
+  }), []);
+
+  // Quill editor formats configuration
+  const formats = useMemo(() => [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'indent'
+  ], []);
 
   // Set interviewDate when prop changes
   useEffect(() => {
@@ -21,6 +88,13 @@ const EmailTemplate = ({ interviewDate }) => {
       }));
     }
   }, [interviewDate]);
+
+  // Update email content when form data changes
+  useEffect(() => {
+    const plainTextEmail = generateEmailTemplate(formData);
+    const htmlEmail = convertPlainTextToHtml(plainTextEmail);
+    setEmailContent(htmlEmail);
+  }, [formData]);
 
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -37,6 +111,10 @@ const EmailTemplate = ({ interviewDate }) => {
     }
   }, [errors]);
 
+  const handleEditorChange = useCallback((content) => {
+    setEmailContent(content);
+  }, []);
+
   const handleCopyToClipboard = useCallback(() => {
     const validation = validateEmailTemplateData(formData);
     
@@ -45,16 +123,15 @@ const EmailTemplate = ({ interviewDate }) => {
       return;
     }
 
-    const emailContent = generateEmailTemplate(formData);
-    navigator.clipboard.writeText(emailContent).then(() => {
+    // Get plain text from the rich text editor content
+    const plainTextContent = stripHtmlToPlainText(emailContent);
+    navigator.clipboard.writeText(plainTextContent).then(() => {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), COPY_FEEDBACK_DURATION_MS);
     }).catch((err) => {
       console.error('Failed to copy to clipboard:', err);
     });
-  }, [formData]);
-
-  const emailPreview = generateEmailTemplate(formData);
+  }, [formData, emailContent]);
 
   return (
     <div className="card email-template-card">
@@ -157,9 +234,18 @@ const EmailTemplate = ({ interviewDate }) => {
 
         <div className="email-preview">
           <h3>
-            <i className="fas fa-eye"></i> Email Preview
+            <i className="fas fa-eye"></i> Email Preview & Editor
           </h3>
-          <pre className="email-content">{emailPreview}</pre>
+          <div className="rich-text-editor">
+            <ReactQuill
+              theme="snow"
+              value={emailContent}
+              onChange={handleEditorChange}
+              modules={modules}
+              formats={formats}
+              placeholder="Email content will appear here..."
+            />
+          </div>
         </div>
 
         <button

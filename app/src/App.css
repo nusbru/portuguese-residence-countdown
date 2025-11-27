@@ -457,3 +457,47 @@ body {
   font-size: 0.85rem;
   margin-top: 4px;
 }
+
+/* Rich Text Editor Styles */
+.rich-text-editor {
+  margin-bottom: 16px;
+}
+
+.rich-text-editor .ql-container {
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.rich-text-editor .ql-editor {
+  min-height: 280px;
+  line-height: 1.6;
+}
+
+.rich-text-editor .ql-toolbar {
+  background: #f8f9fa;
+  border-color: #dadce0;
+  border-radius: 8px 8px 0 0;
+}
+
+.rich-text-editor .ql-container {
+  border-color: #dadce0;
+  border-radius: 0 0 8px 8px;
+}
+
+.rich-text-editor .ql-editor:focus {
+  outline: none;
+}
+
+.rich-text-editor .ql-editor h1,
+.rich-text-editor .ql-editor h2,
+.rich-text-editor .ql-editor h3 {
+  color: #202124;
+  margin-bottom: 0.5em;
+}
+
+.rich-text-editor .ql-editor p {
+  margin-bottom: 0.5em;
+}
