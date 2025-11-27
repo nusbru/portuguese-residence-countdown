@@ -71,12 +71,6 @@ Contacto: ${contactNumber || '{{Contact Number}}'}`;
 };
 
 /**
- * Gets the email subject line
- * @returns {string} - The email subject
- */
-export const getEmailSubject = () => EMAIL_SUBJECT;
-
-/**
  * Validates email template data
  * @param {Object} data - Email template data
  * @returns {Object} - Validation result with isValid and errors

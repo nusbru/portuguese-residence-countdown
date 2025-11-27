@@ -1,52 +1,15 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import { generateEmailTemplate, validateEmailTemplateData, DEFAULT_EMAIL_TEMPLATE_DATA, COPY_FEEDBACK_DURATION_MS } from '../../../domain';
-
-/**
- * Converts plain text to HTML format for the rich text editor
- * @param {string} plainText - The plain text to convert
- * @returns {string} - HTML formatted text
- */
-const convertPlainTextToHtml = (plainText) => {
-  if (!plainText) return '';
-  
-  return plainText
-    .split('\n')
-    .map(line => {
-      // Convert markdown-style headers
-      if (line.startsWith('### ')) {
-        return `<h3>${line.substring(4)}</h3>`;
-      }
-      if (line.startsWith('## ')) {
-        return `<h2>${line.substring(3)}</h2>`;
-      }
-      if (line.startsWith('# ')) {
-        return `<h1>${line.substring(2)}</h1>`;
-      }
-      // Convert "Assunto:" line to bold header
-      if (line.startsWith('Assunto:')) {
-        return `<p><strong>${line}</strong></p>`;
-      }
-      // Empty lines become paragraph breaks
-      if (line.trim() === '') {
-        return '<p><br></p>';
-      }
-      return `<p>${line}</p>`;
-    })
-    .join('');
-};
-
-/**
- * Strips HTML tags to get plain text for clipboard
- * @param {string} html - The HTML content
- * @returns {string} - Plain text content
- */
-const stripHtmlToPlainText = (html) => {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-  return tempDiv.textContent || tempDiv.innerText || '';
-};
+import { 
+  generateEmailTemplate, 
+  validateEmailTemplateData, 
+  DEFAULT_EMAIL_TEMPLATE_DATA, 
+  COPY_FEEDBACK_DURATION_MS,
+  convertPlainTextToHtml,
+  stripHtmlToPlainText,
+} from '../../../domain';
 
 /**
  * EmailTemplate component - displays the email template form when deadline expires
@@ -258,6 +221,10 @@ const EmailTemplate = ({ interviewDate }) => {
       </div>
     </div>
   );
+};
+
+EmailTemplate.propTypes = {
+  interviewDate: PropTypes.string.isRequired,
 };
 
 export default EmailTemplate;

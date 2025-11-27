@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * CountdownItem component - displays a single countdown metric
@@ -17,6 +18,12 @@ const CountdownItem = ({ value, label, animated = false }) => {
       <div className="countdown-label">{label}</div>
     </div>
   );
+};
+
+CountdownItem.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  label: PropTypes.string.isRequired,
+  animated: PropTypes.bool,
 };
 
 export default CountdownItem;

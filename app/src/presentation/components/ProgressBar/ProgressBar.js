@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * ProgressBar component - displays progress towards completion
@@ -15,6 +16,10 @@ const ProgressBar = ({ percentage }) => {
       />
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  percentage: PropTypes.number.isRequired,
 };
 
 export default ProgressBar;

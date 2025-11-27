@@ -1,6 +1,5 @@
 import {
   generateEmailTemplate,
-  getEmailSubject,
   validateEmailTemplateData,
   isDeadlineExpired,
 } from './EmailTemplateService';
@@ -64,14 +63,6 @@ describe('EmailTemplateService', () => {
 
       expect(result).toContain('artigo 82 da Lei n.º 23/2007');
       expect(result).toContain('60 dias');
-    });
-  });
-
-  describe('getEmailSubject', () => {
-    it('should return the correct subject line', () => {
-      const subject = getEmailSubject();
-
-      expect(subject).toBe('Requerimento de entrega do título de residência (renovação – reagrupamento familiar)');
     });
   });
 

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getTodayString } from '../../../domain';
+import PropTypes from 'prop-types';
+import { getTodayString, COPY_FEEDBACK_DURATION_MS } from '../../../domain';
+
+const SUCCESS_FEEDBACK_DURATION_MS = COPY_FEEDBACK_DURATION_MS;
 
 /**
  * SetupCard component - displays the setup form for countdown configuration
@@ -39,7 +42,7 @@ const SetupCard = ({ onSave, initialData }) => {
     
     // Show success animation
     setIsSuccess(true);
-    setTimeout(() => setIsSuccess(false), 2000);
+    setTimeout(() => setIsSuccess(false), SUCCESS_FEEDBACK_DURATION_MS);
   };
 
   return (
@@ -92,6 +95,15 @@ const SetupCard = ({ onSave, initialData }) => {
       </div>
     </div>
   );
+};
+
+SetupCard.propTypes = {
+  onSave: PropTypes.func.isRequired,
+  initialData: PropTypes.shape({
+    interviewDate: PropTypes.string,
+    weekDaysLimit: PropTypes.number,
+    startDate: PropTypes.string,
+  }),
 };
 
 export default SetupCard;

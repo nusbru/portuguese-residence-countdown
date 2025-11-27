@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CountdownItem from '../CountdownItem';
 import ProgressBar from '../ProgressBar';
 import InfoItem from '../InfoItem';
@@ -65,6 +66,22 @@ const CountdownCard = ({ stats, status, onEdit }) => {
       </div>
     </div>
   );
+};
+
+CountdownCard.propTypes = {
+  stats: PropTypes.shape({
+    weekDaysLeft: PropTypes.number.isRequired,
+    weekDaysElapsed: PropTypes.number.isRequired,
+    totalDays: PropTypes.number.isRequired,
+    progressPercent: PropTypes.number.isRequired,
+    expectedDelivery: PropTypes.instanceOf(Date).isRequired,
+    interviewDate: PropTypes.instanceOf(Date).isRequired,
+  }),
+  status: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+  }),
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default CountdownCard;

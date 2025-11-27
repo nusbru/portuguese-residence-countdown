@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * InfoItem component - displays a single information item with icon
@@ -18,6 +19,13 @@ const InfoItem = ({ icon, label, value, className = '' }) => {
       </span>
     </div>
   );
+};
+
+InfoItem.propTypes = {
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default InfoItem;
